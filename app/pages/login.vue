@@ -9,23 +9,27 @@ definePageMeta({
 // const toast = useToast()
 const { login } = useAuth()
 
-const fields: AuthFormField[] = [{
-  name: 'email',
-  type: 'email',
-  label: 'Email',
-  placeholder: 'Digite seu email',
-  required: true
-}, {
-  name: 'password',
-  label: 'Senha',
-  type: 'password',
-  placeholder: 'Digite sua senha',
-  required: true
-}, {
-  name: 'remember',
-  label: 'Lembrar-me',
-  type: 'checkbox'
-}]
+const fields: AuthFormField[] = [
+  {
+    name: 'email',
+    type: 'email',
+    label: 'Email',
+    placeholder: 'Digite seu email',
+    required: true
+  },
+  {
+    name: 'password',
+    label: 'Senha',
+    type: 'password',
+    placeholder: 'Digite sua senha',
+    required: true
+  },
+  {
+    name: 'remember',
+    label: 'Lembrar-me',
+    type: 'checkbox'
+  }
+]
 
 // const providers = [{
 //   label: 'Google',
@@ -43,13 +47,14 @@ const fields: AuthFormField[] = [{
 
 const schema = z.object({
   email: z.email('Email inválido'),
-  password: z.string('Senha é obrigatória').min(8, 'Deve ter pelo menos 8 caracteres')
+  password: z
+    .string('Senha é obrigatória')
+    .min(8, 'Deve ter pelo menos 8 caracteres')
 })
 
 type Schema = z.output<typeof schema>
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  console.log('Submitted', payload)
   const { email, password } = payload.data
   await login(email, password)
 }
@@ -65,6 +70,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
         icon="i-lucide-user"
         :fields="fields"
         @submit="onSubmit"
+        :loadingAuto="true"
       />
     </UPageCard>
   </div>

@@ -16,7 +16,7 @@ useHead({
 })
 
 const title = 'Vi No Uber'
-const description = 'Aplicação web para anunciar em viagens'
+const description = 'Aplicação web para anunciar em viagens de aplicativo.'
 
 useSeoMeta({
   title,
