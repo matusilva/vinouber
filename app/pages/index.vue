@@ -3,16 +3,10 @@ import { sub } from 'date-fns'
 import type { DropdownMenuItem } from '@nuxt/ui'
 import type { Period, Range } from '~/types'
 
-const { isNotificationsSlideoverOpen } = useDashboard()
-
 const items = [[{
-  label: 'New mail',
-  icon: 'i-lucide-send',
-  to: '/inbox'
-}, {
-  label: 'New customer',
+  label: 'Novo Usuário',
   icon: 'i-lucide-user-plus',
-  to: '/customers'
+  to: '/users'
 }]] satisfies DropdownMenuItem[][]
 
 const range = shallowRef<Range>({
@@ -31,19 +25,6 @@ const period = ref<Period>('daily')
         </template>
 
         <template #right>
-          <UTooltip text="Notifications" :shortcuts="['N']">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              square
-              @click="isNotificationsSlideoverOpen = true"
-            >
-              <UChip color="error" inset>
-                <UIcon name="i-lucide-bell" class="size-5 shrink-0" />
-              </UChip>
-            </UButton>
-          </UTooltip>
-
           <UDropdownMenu :items="items">
             <UButton icon="i-lucide-plus" size="md" class="rounded-full" />
           </UDropdownMenu>

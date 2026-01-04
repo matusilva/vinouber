@@ -2,20 +2,16 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 const links = [[{
-  label: 'General',
+  label: 'Geral',
   icon: 'i-lucide-user',
   to: '/settings',
   exact: true
 }, {
-  label: 'Members',
+  label: 'Membros',
   icon: 'i-lucide-users',
   to: '/settings/members'
 }, {
-  label: 'Notifications',
-  icon: 'i-lucide-bell',
-  to: '/settings/notifications'
-}, {
-  label: 'Security',
+  label: 'Segurança',
   icon: 'i-lucide-shield',
   to: '/settings/security'
 }], [{

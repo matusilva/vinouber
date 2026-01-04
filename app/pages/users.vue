@@ -21,9 +21,25 @@ const columnFilters = ref([{
 const columnVisibility = ref()
 const rowSelection = ref({ 1: true })
 
-const { data, status } = await useFetch<User[]>('/api/customers', {
-  lazy: true
-})
+const { users, loading, loadUsers } = useUsers()
+
+await loadUsers()
+
+const data = computed<User[]>(() =>
+  users.value.map(p => ({
+    id: p.user_id,
+    name: p.email?.split('@')[0] || 'Usuário',
+    email: p.email || '',
+    avatar: {
+      src: `https://api.dicebear.com/8.x/initials/svg?seed=${p.email || 'U'}`,
+      alt: p.email || 'user'
+    },
+    status: p.role || 'user'
+  }))
+)
+
+const status = computed(() => (loading.value ? 'pending' : 'success'))
+
 
 function getRowItems(row: Row<User>) {
   return [
@@ -32,13 +48,13 @@ function getRowItems(row: Row<User>) {
       label: 'Actions'
     },
     {
-      label: 'Copy customer ID',
+      label: 'Copiar ID do usuário',
       icon: 'i-lucide-copy',
       onSelect() {
         navigator.clipboard.writeText(row.original.id.toString())
         toast.add({
-          title: 'Copied to clipboard',
-          description: 'Customer ID copied to clipboard'
+          title: 'Copiado para a área de transferência',
+          description: 'ID do usuário copiado para a área de transferência'
         })
       }
     },
@@ -46,24 +62,20 @@ function getRowItems(row: Row<User>) {
       type: 'separator'
     },
     {
-      label: 'View customer details',
+      label: 'Ver detalhes do usuário',
       icon: 'i-lucide-list'
-    },
-    {
-      label: 'View customer payments',
-      icon: 'i-lucide-wallet'
     },
     {
       type: 'separator'
     },
     {
-      label: 'Delete customer',
+      label: 'Excluir usuário',
       icon: 'i-lucide-trash',
       color: 'error',
       onSelect() {
         toast.add({
-          title: 'Customer deleted',
-          description: 'The customer has been deleted.'
+          title: 'Usuário excluído',
+          description: 'O usuário foi excluído.'
         })
       }
     }
@@ -129,19 +141,13 @@ const columns: TableColumn<User>[] = [
     }
   },
   {
-    accessorKey: 'location',
-    header: 'Location',
-    cell: ({ row }) => row.original.location
-  },
-  {
     accessorKey: 'status',
     header: 'Status',
     filterFn: 'equals',
     cell: ({ row }) => {
       const color = {
-        subscribed: 'success' as const,
-        unsubscribed: 'error' as const,
-        bounced: 'warning' as const
+        user: 'neutral' as const,
+        admin: 'success' as const
       }[row.original.status]
 
       return h(UBadge, { class: 'capitalize', variant: 'subtle', color }, () =>
@@ -207,15 +213,15 @@ const pagination = ref({
 </script>
 
 <template>
-  <UDashboardPanel id="customers">
+  <UDashboardPanel id="usuarios">
     <template #header>
-      <UDashboardNavbar title="Customers">
+      <UDashboardNavbar title="Usuários">
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>
 
         <template #right>
-          <CustomersAddModal />
+          <UsersAddModal />
         </template>
       </UDashboardNavbar>
     </template>
@@ -230,10 +236,10 @@ const pagination = ref({
         />
 
         <div class="flex flex-wrap items-center gap-1.5">
-          <CustomersDeleteModal :count="table?.tableApi?.getFilteredSelectedRowModel().rows.length">
+          <UsersDeleteModal :count="table?.tableApi?.getFilteredSelectedRowModel().rows.length">
             <UButton
               v-if="table?.tableApi?.getFilteredSelectedRowModel().rows.length"
-              label="Delete"
+              label="Excluir"
               color="error"
               variant="subtle"
               icon="i-lucide-trash"
@@ -244,7 +250,7 @@ const pagination = ref({
                 </UKbd>
               </template>
             </UButton>
-          </CustomersDeleteModal>
+          </UsersDeleteModal>
 
           <USelect
             v-model="statusFilter"

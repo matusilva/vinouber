@@ -2,7 +2,6 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 const route = useRoute()
-const toast = useToast()
 
 const open = ref(false)
 
@@ -14,28 +13,20 @@ const links = [[{
     open.value = false
   }
 }, {
-  label: 'Inbox',
-  icon: 'i-lucide-inbox',
-  to: '/inbox',
-  badge: '4',
-  onSelect: () => {
-    open.value = false
-  }
-}, {
-  label: 'Customers',
+  label: 'Usuários',
   icon: 'i-lucide-users',
-  to: '/customers',
+  to: '/users',
   onSelect: () => {
     open.value = false
   }
 }, {
-  label: 'Settings',
+  label: 'Configurações',
   to: '/settings',
   icon: 'i-lucide-settings',
   defaultOpen: true,
   type: 'trigger',
   children: [{
-    label: 'General',
+    label: 'Geral',
     to: '/settings',
     exact: true,
     onSelect: () => {
@@ -48,13 +39,7 @@ const links = [[{
       open.value = false
     }
   }, {
-    label: 'Notifications',
-    to: '/settings/notifications',
-    onSelect: () => {
-      open.value = false
-    }
-  }, {
-    label: 'Security',
+    label: 'Segurança',
     to: '/settings/security',
     onSelect: () => {
       open.value = false
@@ -87,31 +72,6 @@ const groups = computed(() => [{
     target: '_blank'
   }]
 }])
-
-onMounted(async () => {
-  const cookie = useCookie('cookie-consent')
-  if (cookie.value === 'accepted') {
-    return
-  }
-
-  toast.add({
-    title: 'We use first-party cookies to enhance your experience on our website.',
-    duration: 0,
-    close: false,
-    actions: [{
-      label: 'Accept',
-      color: 'neutral',
-      variant: 'outline',
-      onClick: () => {
-        cookie.value = 'accepted'
-      }
-    }, {
-      label: 'Opt out',
-      color: 'neutral',
-      variant: 'ghost'
-    }]
-  })
-})
 </script>
 
 <template>
@@ -156,7 +116,5 @@ onMounted(async () => {
     <UDashboardSearch :groups="groups" />
 
     <slot />
-
-    <NotificationsSlideover />
   </UDashboardGroup>
 </template>

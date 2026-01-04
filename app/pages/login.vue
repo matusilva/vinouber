@@ -49,7 +49,7 @@ const schema = z.object({
   email: z.email('Email inválido'),
   password: z
     .string('Senha é obrigatória')
-    .min(8, 'Deve ter pelo menos 8 caracteres')
+    .min(6, 'Deve ter pelo menos 6 caracteres')
 })
 
 type Schema = z.output<typeof schema>
