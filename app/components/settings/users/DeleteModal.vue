@@ -1,26 +1,24 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  count?: number
-}>(), {
-  count: 0
-})
+const props = defineProps<{
+  userId?: string
+}>()
 
 const open = ref(false)
 
 async function onSubmit() {
-  await new Promise(resolve => setTimeout(resolve, 1000))
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   open.value = false
 }
+
+defineExpose({ open })
 </script>
 
 <template>
   <UModal
     v-model:open="open"
-    :title="`Excluir ${count} usuário${count > 1 ? 's' : ''}`"
-    :description="`Você tem certeza, esta ação não pode ser desfeita.`"
+    title="Excluir usuário"
+    :description="`Deseja excluir o usuário ${props.userId}? Esta ação não pode ser desfeita.`"
   >
-    <slot />
-
     <template #body>
       <div class="flex justify-end gap-2">
         <UButton
@@ -29,6 +27,7 @@ async function onSubmit() {
           variant="subtle"
           @click="open = false"
         />
+
         <UButton
           label="Excluir"
           color="error"

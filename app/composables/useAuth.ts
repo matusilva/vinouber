@@ -1,37 +1,43 @@
 export const useAuth = () => {
-  const supabaseClient = useSupabaseClient()
+  const supabase = useSupabaseClient()
+  const user = ref<any>(null)
+
+  const loadAuthUser = async () => {
+    const { data } = await supabase.auth.getUser()
+    user.value = data.user
+    console.log('Auth user loaded:', user.value)
+  }
 
   const login = async (email: string, password: string) => {
-    const { error } = await supabaseClient.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     })
 
-    if (error) {
-      throw new Error(error.message)
-    }
+    if (error) throw new Error(error.message)
+    user.value = data.user
   }
 
   const register = async (email: string, password: string) => {
-    const { error } = await supabaseClient.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password
     })
 
-    if (error) {
-      throw new Error(error.message)
-    }
+    if (error) throw new Error(error.message)
+    user.value = data.user
   }
 
   const logout = async () => {
-    const { error } = await supabaseClient.auth.signOut()
-
-    if (error) {
-      throw new Error(error.message)
-    }
+    await supabase.auth.signOut()
+    user.value = null
   }
 
+  loadAuthUser()
+
   return {
+    user,
+    loadAuthUser,
     login,
     register,
     logout

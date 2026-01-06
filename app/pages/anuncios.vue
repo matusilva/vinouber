@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: false
+})
+
 const { loadVideos, videos } = useAnuncios()
 
 const current = ref(0)

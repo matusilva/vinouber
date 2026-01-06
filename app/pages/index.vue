@@ -6,7 +6,7 @@ import type { Period, Range } from '~/types'
 const items = [[{
   label: 'Novo Usuário',
   icon: 'i-lucide-user-plus',
-  to: '/users'
+  to: '/settings/users'
 }]] satisfies DropdownMenuItem[][]
 
 const range = shallowRef<Range>({

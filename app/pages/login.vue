@@ -6,7 +6,7 @@ definePageMeta({
   layout: false
 })
 
-// const toast = useToast()
+const toast = useToast()
 const { login } = useAuth()
 
 const fields: AuthFormField[] = [
@@ -56,7 +56,18 @@ type Schema = z.output<typeof schema>
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
   const { email, password } = payload.data
-  await login(email, password)
+
+  try {
+    await login(email, password)
+    await navigateTo('/')
+  } catch (err: any) {
+    toast.add({
+      title: 'Falha no login',
+      description: err?.message || 'Credenciais inválidas.',
+      color: 'error',
+      icon: 'i-lucide-x'
+    })
+  }
 }
 </script>
 
