@@ -2,25 +2,20 @@
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 
-const fileRef = ref<HTMLInputElement>()
+// const fileRef = ref<HTMLInputElement>()
 
 const profileSchema = z.object({
   name: z.string().min(2, 'Too short'),
-  email: z.string().email('Invalid email'),
-  username: z.string().min(2, 'Too short'),
-  avatar: z.string().optional(),
-  bio: z.string().optional()
+  email: z.string().email('Invalid email')
 })
 
 type ProfileSchema = z.output<typeof profileSchema>
 
 const profile = reactive<Partial<ProfileSchema>>({
   name: 'Benjamin Canac',
-  email: 'ben@nuxtlabs.com',
-  username: 'benjamincanac',
-  avatar: undefined,
-  bio: undefined
+  email: 'ben@nuxtlabs.com'
 })
+
 const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
   toast.add({
@@ -32,19 +27,19 @@ async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
   console.log(event.data)
 }
 
-function onFileChange(e: Event) {
-  const input = e.target as HTMLInputElement
+// function onFileChange(e: Event) {
+//   const input = e.target as HTMLInputElement
 
-  if (!input.files?.length) {
-    return
-  }
+//   if (!input.files?.length) {
+//     return
+//   }
 
-  profile.avatar = URL.createObjectURL(input.files[0]!)
-}
+//   profile.avatar = URL.createObjectURL(input.files[0]!)
+// }
 
-function onFileClick() {
-  fileRef.value?.click()
-}
+// function onFileClick() {
+//   fileRef.value?.click()
+// }
 </script>
 
 <template>
@@ -55,15 +50,15 @@ function onFileClick() {
     @submit="onSubmit"
   >
     <UPageCard
-      title="Profile"
-      description="These informations will be displayed publicly."
+      title="Perfil"
+      description="Essas informações serão exibidas"
       variant="naked"
       orientation="horizontal"
-      class="mb-4"
+      class="mb-4 w-full"
     >
       <UButton
         form="settings"
-        label="Save changes"
+        label="Salvar alterações"
         color="neutral"
         type="submit"
         class="w-fit lg:ms-auto"
@@ -74,44 +69,23 @@ function onFileClick() {
       <UFormField
         name="name"
         label="Name"
-        description="Will appear on receipts, invoices, and other communication."
+        description="Seu nome"
         required
         class="flex max-sm:flex-col justify-between items-start gap-4"
       >
-        <UInput
-          v-model="profile.name"
-          autocomplete="off"
-        />
+        <UInput v-model="profile.name" autocomplete="off" />
       </UFormField>
       <USeparator />
       <UFormField
         name="email"
         label="Email"
-        description="Used to sign in, for email receipts and product updates."
+        description="Usado para fazer login"
         required
         class="flex max-sm:flex-col justify-between items-start gap-4"
       >
-        <UInput
-          v-model="profile.email"
-          type="email"
-          autocomplete="off"
-        />
+        <UInput v-model="profile.email" type="email" autocomplete="off" />
       </UFormField>
-      <USeparator />
-      <UFormField
-        name="username"
-        label="Username"
-        description="Your unique username for logging in and your profile URL."
-        required
-        class="flex max-sm:flex-col justify-between items-start gap-4"
-      >
-        <UInput
-          v-model="profile.username"
-          type="username"
-          autocomplete="off"
-        />
-      </UFormField>
-      <USeparator />
+      <!-- <USeparator />
       <UFormField
         name="avatar"
         label="Avatar"
@@ -137,8 +111,8 @@ function onFileClick() {
             @change="onFileChange"
           >
         </div>
-      </UFormField>
-      <USeparator />
+      </UFormField> -->
+      <!-- <USeparator />
       <UFormField
         name="bio"
         label="Bio"
@@ -152,7 +126,7 @@ function onFileClick() {
           autoresize
           class="w-full"
         />
-      </UFormField>
+      </UFormField> -->
     </UPageCard>
   </UForm>
 </template>

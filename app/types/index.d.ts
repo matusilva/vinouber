@@ -8,7 +8,7 @@ export interface User {
   name: string
   email: string
   avatar?: AvatarProps
-  status: UserStatus
+  role: UserStatus
 }
 
 export interface Mail {
@@ -18,13 +18,6 @@ export interface Mail {
   subject: string
   body: string
   date: string
-}
-
-export interface Member {
-  name: string
-  username: string
-  role: 'member' | 'owner'
-  avatar: AvatarProps
 }
 
 export interface Stat {
