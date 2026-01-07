@@ -40,6 +40,13 @@ await loadAuthUser()
 //   }
 // })
 
+user.value.avatar = {
+  src: `https://api.dicebear.com/8.x/initials/svg?seed=${
+    user.value.name || user.value.email
+  }`,
+  alt: user.value.name || user.value.email
+}
+
 const items = computed<DropdownMenuItem[][]>(() => [
   [
     {
