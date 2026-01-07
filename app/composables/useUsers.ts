@@ -1,7 +1,9 @@
+import type { User } from '~/types'
+
 export function useUsers() {
   const supabase = useSupabaseClient()
 
-  const users = ref<any[]>([])
+  const users = ref<User[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
 

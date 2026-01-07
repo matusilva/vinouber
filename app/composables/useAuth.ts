@@ -1,11 +1,12 @@
+import type { User } from '@supabase/supabase-js'
+
 export const useAuth = () => {
   const supabase = useSupabaseClient()
-  const user = ref<any>(null)
+  const user = ref<User | null>(null)
 
   const loadAuthUser = async () => {
     const { data } = await supabase.auth.getUser()
     user.value = data.user
-    console.log('Auth user loaded:', user.value)
   }
 
   const login = async (email: string, password: string) => {
