@@ -6,7 +6,7 @@ const _useDashboard = () => {
   defineShortcuts({
     'g-h': () => router.push('/'),
     'g-a': () => router.push('/anuncios'),
-    'g-s': () => router.push('/settings'),
+    'g-s': () => router.push('/settings')
   })
 }
 

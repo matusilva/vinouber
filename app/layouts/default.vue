@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-const route = useRoute()
-
 const open = ref(false)
 
 const links = [
   [
     {
-      label: 'Home',
+      label: 'Dashboard',
       icon: 'i-lucide-house',
       to: '/',
       onSelect: () => {
@@ -78,20 +76,18 @@ const links = [
 const groups = computed(() => [
   {
     id: 'links',
-    label: 'Go to',
+    label: 'Ir para',
     items: links.flat()
   },
   {
     id: 'code',
-    label: 'Code',
+    label: 'Código fonte',
     items: [
       {
         id: 'source',
-        label: 'View page source',
+        label: 'Ver página no GitHub',
         icon: 'i-simple-icons-github',
-        to: `https://github.com/nuxt-ui-templates/dashboard/blob/main/app/pages${
-          route.path === '/' ? '/index' : route.path
-        }.vue`,
+        to: 'https://github.com/matusilva/vinouber',
         target: '_blank'
       }
     ]
@@ -109,13 +105,14 @@ const groups = computed(() => [
       class="bg-elevated/25"
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
-      <template #header="{ collapsed }">
+      <!-- <template #header="{ collapsed }">
         <TeamsMenu :collapsed="collapsed" />
-      </template>
+      </template> -->
 
       <template #default="{ collapsed }">
         <UDashboardSearchButton
           :collapsed="collapsed"
+          label="Pesquisar..."
           class="bg-transparent ring-default"
         />
 
@@ -141,7 +138,7 @@ const groups = computed(() => [
       </template>
     </UDashboardSidebar>
 
-    <UDashboardSearch :groups="groups" />
+    <UDashboardSearch :groups="groups" placeholder="Clique para pesquisar ou digite..." />
 
     <slot />
   </UDashboardGroup>

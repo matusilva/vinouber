@@ -106,12 +106,28 @@ const template = (d: DataRecord) =>
       class="h-96"
       :width="width"
     >
-      <VisLine :x="x" :y="y" color="var(--ui-primary)" />
-      <VisArea :x="x" :y="y" color="var(--ui-primary)" :opacity="0.1" />
+      <VisLine
+        :x="x"
+        :y="y"
+        color="var(--ui-primary)"
+      />
+      <VisArea
+        :x="x"
+        :y="y"
+        color="var(--ui-primary)"
+        :opacity="0.1"
+      />
 
-      <VisAxis type="x" :x="x" :tick-format="xTicks" />
+      <VisAxis
+        type="x"
+        :x="x"
+        :tick-format="xTicks"
+      />
 
-      <VisCrosshair color="var(--ui-primary)" :template="template" />
+      <VisCrosshair
+        color="var(--ui-primary)"
+        :template="template"
+      />
 
       <VisTooltip />
     </VisXYContainer>

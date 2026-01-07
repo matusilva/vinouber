@@ -60,10 +60,13 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
   try {
     await login(email, password)
     await navigateTo('/')
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : 'Credenciais inválidas.'
+
     toast.add({
       title: 'Falha no login',
-      description: err?.message || 'Credenciais inválidas.',
+      description: message,
       color: 'error',
       icon: 'i-lucide-x'
     })
@@ -80,8 +83,8 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
         description="Insira suas credenciais para acessar sua conta."
         icon="i-lucide-user"
         :fields="fields"
+        :loading-auto="true"
         @submit="onSubmit"
-        :loadingAuto="true"
       />
     </UPageCard>
   </div>

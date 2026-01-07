@@ -84,17 +84,25 @@ onMounted(loadVideos)
       />
     </UFormField>
 
-    <UButton type="submit" label="Enviar" loading-auto class="cursor-pointer" />
+    <UButton
+      type="submit"
+      label="Enviar"
+      loading-auto
+      class="cursor-pointer"
+    />
   </UForm>
 
-  <hr class="my-8" />
+  <hr class="my-8">
 
   <UCard>
     <template #header>
       <span class="font-semibold">Vídeos no Storage</span>
     </template>
 
-    <div v-if="videos.length === 0" class="text-sm text-gray-500">
+    <div
+      v-if="videos.length === 0"
+      class="text-sm text-gray-500"
+    >
       Nenhum vídeo encontrado.
     </div>
 
