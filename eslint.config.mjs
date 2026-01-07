@@ -5,6 +5,8 @@ export default withNuxt({
   rules: {
     'vue/no-multiple-template-root': 'off',
     'vue/max-attributes-per-line': ['error', { singleline: 3 }],
-    '@stylistic/arrow-parens': ['error', 'always']
+    'vue/singleline-html-element-content-newline': 'off',
+    '@stylistic/arrow-parens': ['error', 'always'],
+    '@stylistic/operator-linebreak': 'off'
   }
 })

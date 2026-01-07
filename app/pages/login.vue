@@ -80,8 +80,8 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
         description="Insira suas credenciais para acessar sua conta."
         icon="i-lucide-user"
         :fields="fields"
+        :loading-auto="true"
         @submit="onSubmit"
-        :loadingAuto="true"
       />
     </UPageCard>
   </div>
