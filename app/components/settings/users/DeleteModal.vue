@@ -5,9 +5,27 @@ const props = defineProps<{
 
 const open = ref(false)
 
+const { deleteUser, loading } = useUsers()
+const toast = useToast()
+
 async function onSubmit() {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  open.value = false
+  if (!props.userId) return
+
+  try {
+    await deleteUser(props.userId)
+    toast.add({
+      title: 'Sucesso',
+      description: 'Usuário excluído com sucesso',
+      color: 'success'
+    })
+    open.value = false
+  } catch {
+    toast.add({
+      title: 'Erro',
+      description: 'Erro ao excluir usuário',
+      color: 'error'
+    })
+  }
 }
 
 defineExpose({ open })
@@ -32,7 +50,7 @@ defineExpose({ open })
           label="Excluir"
           color="error"
           variant="solid"
-          loading-auto
+          :loading="loading"
           @click="onSubmit"
         />
       </div>
