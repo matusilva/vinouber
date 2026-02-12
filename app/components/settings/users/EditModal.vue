@@ -1,62 +1,68 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
+import type { User } from '~/types'
 
-const { addUser, loading } = useUsers()
+const props = defineProps<{
+  user?: User
+}>()
+
+const { updateUser, loading } = useUsers()
 const toast = useToast()
 
 const schema = z.object({
+  id: z.string(),
   name: z.string().min(2, 'Muito curto'),
-  email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
-  role: z.enum(['user', 'admin']).default('user')
+  role: z.enum(['user', 'admin'])
 })
-const open = ref(false)
 
 type Schema = z.output<typeof schema>
+const open = ref(false)
 
 const state = reactive<Partial<Schema>>({
+  id: undefined,
   name: undefined,
-  email: undefined,
-  password: undefined,
-  role: 'user'
+  role: undefined
 })
+
+watch(
+  () => props.user,
+  (newUser) => {
+    if (newUser) {
+      state.id = newUser.id
+      state.name = newUser.name
+      state.role = newUser.role
+    }
+  }
+)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
-    await addUser(event.data)
+    await updateUser(event.data)
     toast.add({
       title: 'Sucesso',
-      description: `Usuário ${event.data.name} criado com sucesso`,
+      description: `Usuário ${event.data.name} atualizado com sucesso`,
       color: 'success'
     })
     open.value = false
-    // Reset form
-    state.name = undefined
-    state.email = undefined
-    state.password = undefined
-    state.role = 'user'
   } catch {
     toast.add({
       title: 'Erro',
-      description: 'Erro ao criar usuário',
+      description: 'Erro ao atualizar usuário',
       color: 'error'
     })
   }
 }
+
+defineExpose({ open })
 </script>
 
 <template>
   <UModal
     v-model:open="open"
-    title="Novo usuário"
-    description="Adicione um novo usuário ao banco de dados"
+    title="Editar usuário"
+    description="Edite as informações do usuário"
   >
-    <UButton
-      label="Novo usuário"
-      icon="i-lucide-plus"
-    />
-
     <template #body>
       <UForm
         :schema="schema"
@@ -71,30 +77,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UInput
             v-model="state.name"
             class="w-full"
-            placeholder="John Doe"
-          />
-        </UFormField>
-
-        <UFormField
-          label="Email"
-          name="email"
-        >
-          <UInput
-            v-model="state.email"
-            class="w-full"
-            placeholder="john.doe@example.com"
-          />
-        </UFormField>
-
-        <UFormField
-          label="Senha"
-          name="password"
-        >
-          <UInput
-            v-model="state.password"
-            type="password"
-            class="w-full"
-            placeholder="••••••••"
           />
         </UFormField>
 
@@ -118,7 +100,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             @click="open = false"
           />
           <UButton
-            label="Criar"
+            label="Salvar"
             color="primary"
             variant="solid"
             type="submit"

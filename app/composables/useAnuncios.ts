@@ -12,12 +12,10 @@ export function useAnuncios() {
     const fileName = crypto.randomUUID() + '.' + file.name.split('.').pop()
     const path = `${FOLDER}/${fileName}`
 
-    const { error } = await supabase.storage
-      .from(BUCKET)
-      .upload(path, file, {
-        cacheControl: '3600',
-        upsert: false
-      })
+    const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
+      cacheControl: '3600',
+      upsert: false
+    })
 
     uploading.value = false
 
@@ -30,12 +28,10 @@ export function useAnuncios() {
   async function loadVideos() {
     videos.value = []
 
-    const { data, error } = await supabase.storage
-      .from(BUCKET)
-      .list(FOLDER, {
-        limit: 200,
-        sortBy: { column: 'name', order: 'asc' }
-      })
+    const { data, error } = await supabase.storage.from(BUCKET).list(FOLDER, {
+      limit: 200,
+      sortBy: { column: 'name', order: 'asc' }
+    })
 
     if (error) {
       console.error(error)
@@ -45,9 +41,7 @@ export function useAnuncios() {
     for (const file of data) {
       const path = `${FOLDER}/${file.name}`
 
-      const { data: urlData } = supabase.storage
-        .from(BUCKET)
-        .getPublicUrl(path)
+      const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(path)
 
       videos.value.push(urlData.publicUrl)
     }
