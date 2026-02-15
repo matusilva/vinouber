@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
   const client = await serverSupabaseServiceRole<any>(event)
 
-  const updates: any = {}
+  const updates: Record<string, any> = {}
   if (name !== undefined) updates.name = name
   if (role !== undefined) updates.role = role
 

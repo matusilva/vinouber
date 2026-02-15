@@ -1,44 +1,11 @@
-import type { AvatarProps } from '@nuxt/ui'
+export type UserRole = 'user' | 'admin'
 
-export type UserStatus = 'user' | 'admin'
-export type SaleStatus = 'paid' | 'failed' | 'refunded'
-
-export interface User {
-  id: string
+export interface Profile {
+  user_id: string
+  email: string
   name: string
-  email: string
-  avatar?: AvatarProps
-  role: UserStatus
+  role: UserRole
+  created_at: string
 }
 
-export interface Mail {
-  id: number
-  unread?: boolean
-  from: User
-  subject: string
-  body: string
-  date: string
-}
-
-export interface Stat {
-  title: string
-  icon: string
-  value: number | string
-  variation: number
-  formatter?: (value: number) => string
-}
-
-export interface Sale {
-  id: string
-  date: string
-  status: SaleStatus
-  email: string
-  amount: number
-}
-
-export type Period = 'daily' | 'weekly' | 'monthly'
-
-export interface Range {
-  start: Date
-  end: Date
-}
+export type User = Profile
