@@ -8,4 +8,14 @@ export interface Profile {
   created_at: string
 }
 
-export type User = Profile
+export interface User {
+  id: string
+  email: string
+  name: string
+  role: UserRole
+  avatar?: {
+    src: string
+    alt: string
+  }
+  created_at: string
+}

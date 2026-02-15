@@ -2,6 +2,8 @@
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 
+const { loadAuthUser, user } = useAuth()
+
 // const fileRef = ref<HTMLInputElement>()
 
 const profileSchema = z.object({
@@ -11,9 +13,11 @@ const profileSchema = z.object({
 
 type ProfileSchema = z.output<typeof profileSchema>
 
+await loadAuthUser()
+
 const profile = reactive<Partial<ProfileSchema>>({
-  name: 'Benjamin Canac',
-  email: 'ben@nuxtlabs.com'
+  name: user.value.user_metadata.name,
+  email: user.value.email
 })
 
 const toast = useToast()
@@ -73,7 +77,10 @@ async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
         required
         class="flex max-sm:flex-col justify-between items-start gap-4"
       >
-        <UInput v-model="profile.name" autocomplete="off" />
+        <UInput
+          v-model="profile.name"
+          autocomplete="off"
+        />
       </UFormField>
       <USeparator />
       <UFormField
@@ -83,7 +90,12 @@ async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
         required
         class="flex max-sm:flex-col justify-between items-start gap-4"
       >
-        <UInput v-model="profile.email" type="email" autocomplete="off" />
+        <UInput
+          v-model="profile.email"
+          type="email"
+          :disabled="true"
+          autocomplete="off"
+        />
       </UFormField>
       <!-- <USeparator />
       <UFormField

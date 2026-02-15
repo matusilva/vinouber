@@ -45,11 +45,20 @@ export default defineEventHandler(async (event) => {
   if (user.user) {
     const { error: updateError } = await client
       .from('profiles')
-      .update({ name, role })
-      .eq('user_id', user.user.id)
+      .upsert({
+        user_id: user.user.id,
+        name,
+        role,
+        email
+      }, { onConflict: 'user_id' })
+      .select()
 
     if (updateError) {
       console.error('Failed to update profile:', updateError)
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Failed to create profile record: ' + updateError.message
+      })
     }
   }
 
