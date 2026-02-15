@@ -39,7 +39,9 @@ const items = [
       <UPageBody>
         <div class="flex flex-col gap-4">
           <h2 class="text-lg font-semibold">Bem-vindo ao Painel</h2>
-          <p class="text-gray-500">Selecione uma opção no menu lateral para começar.</p>
+          <p class="text-gray-500">
+            Selecione uma opção no menu lateral para começar.
+          </p>
         </div>
       </UPageBody>
     </UDashboardPanelContent>

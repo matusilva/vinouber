@@ -18,7 +18,8 @@ const data = computed<User[]>(() =>
       }`,
       alt: u.name || u.email
     },
-    role: u.role || 'user'
+    role: u.role || 'user',
+    created_at: u.created_at
   }))
 )
 

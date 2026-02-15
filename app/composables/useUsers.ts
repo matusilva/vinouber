@@ -28,7 +28,9 @@ export function useUsers() {
     users.value = (data as Profile[]) || []
   }
 
-  async function addUser(user: Omit<Profile, 'created_at' | 'user_id'> & { password?: string }) {
+  async function addUser(
+    user: Omit<Profile, 'created_at' | 'user_id'> & { password?: string }
+  ) {
     loading.value = true
     error.value = null
 
@@ -40,14 +42,15 @@ export function useUsers() {
       await loadUsers()
     } catch (err: any) {
       console.error(err)
-      error.value = err.data?.message || err.message || 'Erro ao adicionar usuário.'
+      error.value =
+        err.data?.message || err.message || 'Erro ao adicionar usuário.'
       throw err
     } finally {
       loading.value = false
     }
   }
 
-  async function updateUser(user: Partial<Profile> & { user_id: string }) {
+  async function updateUser(user: any) {
     loading.value = true
     error.value = null
 
@@ -55,7 +58,7 @@ export function useUsers() {
       await $fetch('/api/users', {
         method: 'PUT',
         body: {
-          id: user.user_id,
+          id: user.id || user.user_id,
           name: user.name,
           role: user.role
         }
@@ -63,7 +66,8 @@ export function useUsers() {
       await loadUsers()
     } catch (err: any) {
       console.error(err)
-      error.value = err.data?.message || err.message || 'Erro ao atualizar usuário.'
+      error.value =
+        err.data?.message || err.message || 'Erro ao atualizar usuário.'
       throw err
     } finally {
       loading.value = false
@@ -81,7 +85,8 @@ export function useUsers() {
       await loadUsers()
     } catch (err: any) {
       console.error(err)
-      error.value = err.data?.message || err.message || 'Erro ao excluir usuário.'
+      error.value =
+        err.data?.message || err.message || 'Erro ao excluir usuário.'
       throw err
     } finally {
       loading.value = false
