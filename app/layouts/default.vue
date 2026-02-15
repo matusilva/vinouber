@@ -14,7 +14,7 @@ const links = [
       }
     },
     {
-      label: 'Anúncios',
+      label: 'Anúncios App',
       icon: 'i-lucide-megaphone',
       to: '/anuncios',
       onSelect: () => {
