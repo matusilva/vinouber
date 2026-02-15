@@ -1,4 +1,4 @@
-import type { Profile } from "~/types"
+import type { Profile } from '~/types'
 
 export function useUsers() {
   const supabase = useSupabaseClient()
