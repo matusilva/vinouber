@@ -16,19 +16,38 @@ type ProfileSchema = z.output<typeof profileSchema>
 await loadAuthUser()
 
 const profile = reactive<Partial<ProfileSchema>>({
-  name: user.value.user_metadata.name,
-  email: user.value.email
+  name: user.value?.user_metadata?.name || '',
+  email: user.value?.email || ''
 })
 
+const { updateUser } = useUsers()
 const toast = useToast()
+
 async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
-  toast.add({
-    title: 'Success',
-    description: 'Your settings have been updated.',
-    icon: 'i-lucide-check',
-    color: 'success'
-  })
-  console.log(event.data)
+  try {
+    if (!user.value?.id) return
+
+    await updateUser({
+      id: user.value.id,
+      name: event.data.name
+    })
+
+    await loadAuthUser()
+
+    toast.add({
+      title: 'Sucesso',
+      description: 'Suas configurações foram atualizadas.',
+      icon: 'i-lucide-check',
+      color: 'success'
+    })
+  } catch (error: any) {
+    toast.add({
+      title: 'Erro',
+      description: error.data?.statusMessage || error.message || 'Falha ao atualizar configurações.',
+      icon: 'i-lucide-circle-x',
+      color: 'error'
+    })
+  }
 }
 
 // function onFileChange(e: Event) {

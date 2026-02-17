@@ -35,15 +35,16 @@ const items = [
       </UDashboardNavbar>
     </template>
 
-    <UDashboardPanelContent>
+    <template #body>
       <UPageBody>
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 px-4">
           <h2 class="text-lg font-semibold">Bem-vindo ao Painel</h2>
-          <p class="text-gray-500">
-            Selecione uma opção no menu lateral para começar.
-          </p>
+          <small class="text-gray-500">Dashboard em construção...</small>
+          <small>
+            Enquanto isso, selecione uma opção no menu lateral para começar.
+          </small>
         </div>
       </UPageBody>
-    </UDashboardPanelContent>
+    </template>
   </UDashboardPanel>
 </template>
