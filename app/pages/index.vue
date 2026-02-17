@@ -4,7 +4,7 @@ import type { DropdownMenuItem } from '@nuxt/ui'
 const items = [
   [
     {
-      label: 'Novo Usuário',
+      label: 'Criar Novo Usuário',
       icon: 'i-lucide-user-plus',
       to: '/settings/users'
     }
