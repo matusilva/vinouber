@@ -42,28 +42,29 @@ await loadAuthUser()
 
 user.value.avatar = {
   src: `https://api.dicebear.com/8.x/initials/svg?seed=${
-    user.value.name || user.value.email
+    user.value.user_metadata.name || user.value.email
   }`,
-  alt: user.value.name || user.value.email
+  alt: user.value.user_metadata.name || user.value.email
 }
 
 const items = computed<DropdownMenuItem[][]>(() => [
   [
     {
       type: 'label',
-      label: user.value.email,
+      label: user.value.user_metadata.name || user.value.email,
       avatar: user.value.avatar
     }
   ],
   [
     {
       label: 'Perfil',
-      icon: 'i-lucide-user'
+      icon: 'i-lucide-user',
+      to: '/settings'
     },
     {
       label: 'Ajustes',
       icon: 'i-lucide-settings',
-      to: '/settings'
+      to: '/settings/security'
     }
   ],
   [
@@ -174,7 +175,7 @@ const items = computed<DropdownMenuItem[][]>(() => [
     <UButton
       v-bind="{
         ...user,
-        label: collapsed ? undefined : user?.email,
+        label: collapsed ? undefined : user?.user_metadata.name || user?.email,
         trailingIcon: collapsed ? undefined : 'i-lucide-chevrons-up-down'
       }"
       color="neutral"

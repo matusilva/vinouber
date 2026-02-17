@@ -1,6 +1,6 @@
 export const useAuth = () => {
   const supabase = useSupabaseClient()
-  const user = ref<any>(null)
+  const user = useState<any>('auth-user', () => null)
 
   const loadAuthUser = async () => {
     const { data } = await supabase.auth.getUser()
@@ -31,8 +31,6 @@ export const useAuth = () => {
     await supabase.auth.signOut()
     user.value = null
   }
-
-  loadAuthUser()
 
   return {
     user,
